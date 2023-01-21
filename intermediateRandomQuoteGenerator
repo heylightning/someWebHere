@@ -46,7 +46,7 @@
           'X-RapidAPI-Host': 'Host'
     }
   };
-
+  
       fetch('https://quotes15.p.rapidapi.com/quotes/random/', options)
         .then(response => response.json())
         .then(response => {
