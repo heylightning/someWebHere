@@ -1,0 +1,55 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript - Currency Converter</title>
+</head>
+<body>
+    <input type="text" id="fromCurrencyID" placeholder="fromCurrency">
+    <input type="text" id="toCurrencyID" placeholder="toCurreny"><br>
+    <input type="text" id="amountID"
+    placeholder="Amount">
+    <button id="convert">Convert</button>
+
+    <p id="result"></p>
+
+    <script>
+      
+    const options = {
+    method: 'GET',
+    headers: {
+        'X-RapidAPI-Key': 'KEY',
+        'X-RapidAPI-Host': 'HOST'
+        }
+    };
+
+    var fromCurrency;
+    var toCurrency;
+    var amount;
+
+    document.getElementById("convert").addEventListener("click", function () {
+
+    fromCurrency = document.getElementById("fromCurrencyID").value;
+    toCurrency = document.getElementById("toCurrencyID").value;
+    amountToBeConverted = document.getElementById("amountID").value;
+    var API_STRING = String('https://currency-converter18.p.rapidapi.com/api/v1/convert?from=' + fromCurrency + '&to=' + toCurrency + '&amount=' + amountToBeConverted);
+
+    console.log(API_STRING)
+
+    fetch(API_STRING, options)
+        .then(response => response.json())
+        .then(response => {
+            if(response.success == false) {
+                document.getElementById("result").innerHTML = response.validationMessage;
+            }
+            else {
+                document.getElementById("result").innerHTML = response.result.convertedAmount;
+            }
+        })
+        .catch(err => console.error(err));
+    });
+    
+    </script>
+</body>
+</html>
