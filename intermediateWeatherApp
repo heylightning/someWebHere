@@ -1,0 +1,105 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript - Weather App</title>
+</head>
+<style>
+
+  body{
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
+
+  .clickBtn, .textUser{
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      font-size: 15px;
+      background-color: white;
+      color: yellow;
+      width: 10%;
+      height: 5%;
+      border: 2px solid black;
+      border-radius: 10px;
+      transition: .2s;
+  }
+
+  .textUser{
+      color: black;
+      font-size: 12px;
+  }
+
+  .clickBtn:hover{
+      border-radius: 20px;
+      background-color: yellow;
+      color: black;
+      cursor: pointer;
+  }
+
+  p{
+      color: yellow;
+  }
+
+
+  span{
+  font-size: 11px;
+  color: black;
+  }
+
+</style>
+<body>
+
+    <input class="textUser" type="text" id="userLocation">
+    <button class="clickBtn" id="clickMe">Show</button>
+
+    <p class="details">
+        Humidity: <span id="humidity"> </span>
+        <br>
+        Pressure: <span id="pressure"> </span>
+        <br>
+        Temperature: <span id="temperature"> </span>
+        <br>
+        Condition: <span id="condition"> </span>
+        <br>
+        Visibility: <span id="visibility"> </span>
+        <br>
+    </p>
+
+    <script>
+      document.getElementById("clickMe").addEventListener("click", function() {
+      const options = {
+          method: 'GET',
+          headers: {
+              'X-RapidAPI-Key': 'Key',
+              'X-RapidAPI-Host': 'Host'
+          }
+      };
+
+
+      var userL = String(document.getElementById("userLocation").value);
+
+      var API_URL = 'https://yahoo-weather5.p.rapidapi.com/weather?location=' + String(userL.split(" ").join("")) + '&format=json&u=f';
+
+      console.log(API_URL)
+
+      fetch(API_URL, options)
+          .then(response => response.json())
+          .then(response => {
+              console.log(response);
+              document.getElementById("humidity").innerHTML = response.current_observation.atmosphere.humidity;
+
+              document.getElementById("pressure").innerHTML = response.current_observation.atmosphere.pressure;
+
+              document.getElementById("temperature").innerHTML = response.current_observation.condition.temperature;
+
+              document.getElementById("condition").innerHTML = 
+              response.current_observation.condition.text;
+
+              document.getElementById("visibility").innerHTML = response.current_observation.atmosphere.visibility;
+          })
+          .catch(err => {
+              console.error(err);
+          });
+  });  
+    </script>
+</body>
+</html>
