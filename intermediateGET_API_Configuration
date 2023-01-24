@@ -1,0 +1,381 @@
+---- Code for index.html ----
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GET API Configuration</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header">
+        <p>
+            get API Configuration
+        </p>
+    </div>
+
+    <div class="middleSection">
+        
+    <form id="formID">
+        <input type="text" class="input-style" id="getUsername" placeholder="Username">
+        <br>
+        <input type="password" class="input-style" id="getPassword" placeholder="Password" ><br>
+        <button class="button-style" id="submitButton">Sign In</button>
+    </form>
+
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
+
+---- Code for style.css ----
+
+.header{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 20px;
+    text-align: center; 
+}
+
+.middleSection{
+    text-align: center;
+    margin-top: 100px;
+    padding: 50px;
+}
+
+.input-style{
+    width: 20%;
+    height: 5%;
+    border-radius: 20px;
+    border: 1px solid black;
+    margin-top: 10px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 12px;
+    transition: .2s;
+    padding-left: 10px;
+}
+.button-style{
+    width: 10%;
+    height: 5%;
+    border-radius: 18px;
+    margin-top: 20px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 11px;
+    background-color: black;
+    color: white;
+    border: none;
+    transition: .3s;
+    cursor: pointer;
+}
+
+.button-style:hover{
+    background-color: white;
+    color: black;
+}
+
+---- Code for script.js ----
+
+let usernameG;
+let passwordG;
+
+
+document.getElementById("submitButton").addEventListener("click", function() {
+    usernameG = document.getElementById("getUsername").value;
+
+    passwordG = document.getElementById("getPassword").value;
+
+    if(usernameG == "" || passwordG == "") {
+        window.alert("Given fields are required.");
+    }
+    else{
+        document.getElementById("formID").action = "./result.html";
+
+        // Storing the variable dynamically to parse within the different pages of HTML.
+        sessionStorage.setItem("usernameG", usernameG);
+        sessionStorage.setItem("passwordG", passwordG);
+        location.href = "result.html"
+    }
+
+});
+
+---- Code for result.html ----
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Response Page</title>
+</head>
+<body>
+    <p style="font-family: Verdana, Geneva, Tahoma, sans-serif; font-size: 12px; text-align: center; margin-top: 100px;" id="resultID">LOADING...</p>
+    
+    <script>
+        // Calling the sesssionStorage key.
+        let usernameG = sessionStorage.getItem("usernameG");
+        let passwordG = sessionStorage.getItem("passwordG");
+
+        fetch("./userconfig.json", {
+            method: 'GET'
+        })
+        .then(response => response.json())
+        .then(response => {
+            for(let i = 0; i < response.length; i++) {
+                if(response[i].username != usernameG) {
+                    document.getElementById("resultID").innerHTML = "No user found."
+                    break;
+                }
+                if(response[i].username == usernameG && response[i].password == passwordG) {
+                    document.getElementById("resultID").innerHTML = "User fetched! <br><br>"+ JSON.stringify(response[i]);
+                    break;
+                }
+                else{
+                    document.getElementById("resultID").innerHTML = "Wrong Password!"
+                    break;
+                }
+
+            }
+        })
+        .catch(err => console.error(err))
+    </script>
+</body>
+</html>
+
+---- Code for userconfig.json ----
+
+[
+    {
+        "_id": 0,
+        "name": "Pratham Mishra",
+        "username": "iprathammishra",
+        "email": "pratham@s.amity.edu",
+        "password": "iamhero",
+        "gender": "male",
+        "dob": "2001-10-29",
+        "anonymous": false, 
+        "phone": "+91 9090909090",
+        "isCollegeVerified": true,
+        "numberOfPost": 0,
+        "post": "Different API",
+        "numberOfReacts": 1200,
+        "numberOfRadiationLevel": 1,
+        "numberOfAtoms": 0,
+        "connections": {
+            "name": ["Mohit", "Parv", "So on"],
+            "numberOfConnections": 50
+        },
+        "collections": {
+            "name": ["Amazon", "Mohit", "So on"],
+            "numberOfCollections": 76
+        },
+
+        "requests": {
+            "name": ["Parteek", "Ankit", "So on"],
+            "numberOfRequests": 12
+        }
+
+    },
+
+    {
+        "_id": 1,
+        "name": "Mohit Sankhla",
+        "username": "imohisankhla",
+        "email": "mohit.sankhla@s.amity.edu",
+        "password": "iamboss",
+        "gender": "male",
+        "dob": "2003-1-29",
+        "anonymous": false, 
+        "phone": "+91 1234567890",
+        "isCollegeVerified": true,
+        "numberOfPost": 0,
+        "post": "Different API",
+        "numberOfReacts": 10,
+        "numberOfRadiationLevel": 1,
+        "numberOfAtoms": 0,
+        "connections": {
+            "name": ["Mohit", "Parv", "So on"],
+            "numberOfConnections": 50
+        },
+        "collections": {
+            "name": ["Amazon", "Mohit", "So on"],
+            "numberOfCollections": 76
+        },
+
+        "requests": {
+            "name": ["Parteek", "Ankit", "So on"],
+            "numberOfRequests": 12
+        }
+
+    },
+
+    {
+        "_id": 2,
+        "name": "Mohit Lahoti",
+        "username": "imohitlahoti",
+        "email": "mohit.lahoti@s.amity.edu",
+        "password": "iammagnetic",
+        "gender": "male",
+        "dob": "2002-10-2",
+        "anonymous": false, 
+        "phone": "+91 9999999997",
+        "isCollegeVerified": true,
+        "numberOfPost": 0,
+        "post": "Different API",
+        "numberOfReacts": 14000,
+        "numberOfRadiationLevel": 1.4,
+        "numberOfAtoms": 0,
+        "connections": {
+            "name": ["Mohit", "Parv", "So on"],
+            "numberOfConnections": 50
+        },
+        "collections": {
+            "name": ["Amazon", "Mohit", "So on"],
+            "numberOfCollections": 76
+        },
+
+        "requests": {
+            "name": ["Parteek", "Ankit", "So on"],
+            "numberOfRequests": 12
+        }
+
+    },
+
+    {
+        "_id": 3,
+        "name": "Parteek Sandhu",
+        "username": "iparteeksandhu",
+        "email": "parteek.sandhu@s.amity.edu",
+        "password": "iamtechy",
+        "gender": "male",
+        "dob": "2004-11-9",
+        "anonymous": false, 
+        "phone": "+91 1212121212",
+        "isCollegeVerified": true,
+        "numberOfPost": 0,
+        "post": "Different API",
+        "numberOfReacts": 0,
+        "numberOfRadiationLevel": 0,
+        "numberOfAtoms": 0,
+        "connections": {
+            "name": ["Mohit", "Parv", "So on"],
+            "numberOfConnections": 50
+        },
+        "collections": {
+            "name": ["Amazon", "Mohit", "So on"],
+            "numberOfCollections": 76
+        },
+
+        "requests": {
+            "name": ["Parteek", "Ankit", "So on"],
+            "numberOfRequests": 12
+        }
+
+    },
+
+    {
+        "_id": 4,
+        "name": "Ankit Yadav",
+        "username": "iankityadav",
+        "email": "ankit.yadav@s.amity.edu",
+        "password": "iamyadav",
+        "gender": "male",
+        "dob": "2001-1-29",
+        "anonymous": false, 
+        "phone": "+91 6969696969",
+        "isCollegeVerified": true,
+        "numberOfPost": 0,
+        "post": "Different API",
+        "numberOfReacts": 23000,
+        "numberOfRadiationLevel": 2,
+        "numberOfAtoms": 1,
+        "connections": {
+            "name": ["Mohit", "Parv", "So on"],
+            "numberOfConnections": 50
+        },
+        "collections": {
+            "name": ["Amazon", "Mohit", "So on"],
+            "numberOfCollections": 76
+        },
+
+        "requests": {
+            "name": ["Parteek", "Ankit", "So on"],
+            "numberOfRequests": 12
+        }
+
+    },
+
+    {
+        "_id": 5,
+        "name": "Aditya Chawla",
+        "username": "iadityachawla",
+        "email": "adityachawla34@gmail.com",
+        "password": "iamchawla",
+        "gender": "male",
+        "dob": "2003-10-29",
+        "anonymous": false, 
+        "phone": "+91 9084466699",
+        "isCollegeVerified": false,
+        "authGoogle": false
+    },
+
+    {
+        "_id": 6,
+        "name": "Parv Verma",
+        "username": "iparvverma",
+        "email": "parvverma@dit.dehradun.edu",
+        "password": "iamverma",
+        "gender": "male",
+        "dob": "2002-1-9",
+        "anonymous": false, 
+        "phone": "+91 6969696949",
+        "isCollegeVerified": true,
+        "numberOfPost": 0,
+        "post": "Different API",
+        "numberOfReacts": 3000,
+        "numberOfRadiationLevel": 1,
+        "numberOfAtoms": 0,
+        "connections": {
+            "name": ["Mohit", "Parv", "So on"],
+            "numberOfConnections": 50
+        },
+        "collections": {
+            "name": ["Amazon", "Mohit", "So on"],
+            "numberOfCollections": 76
+        },
+
+        "requests": {
+            "name": ["Parteek", "Ankit", "So on"],
+            "numberOfRequests": 12
+        }
+
+    },
+
+    {
+        "_id": 7,
+        "name": "Palak Papneja",
+        "username": "iapalak_",
+        "email": "palak007@outlook.com",
+        "password": "iampalak",
+        "gender": "female",
+        "dob": "2003-4-29",
+        "anonymous": false, 
+        "phone": "+91 7878787878",
+        "isCollegeVerified": false,
+        "authGoogle": false
+    },
+
+    {
+        "_id": 8,
+        "name": "Aman Yadav",
+        "username": "aman_01",
+        "email": "aman@gmail.com",
+        "password": "iamaman",
+        "gender": "male",
+        "dob": "2003-10-29",
+        "anonymous": false, 
+        "phone": "+91 0987654321",
+        "isCollegeVerified": false,
+        "authGoogle": true
+    }
+]
