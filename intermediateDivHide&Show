@@ -1,0 +1,156 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IndexI</title>
+</head>
+<style>
+    body {
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        background: black;
+        color: white;
+    }
+
+    div {
+        text-align: center;
+    }
+
+    button {
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-size: 1rem;
+        width: 30%;
+        height: 40px;
+        border: none;
+        border-radius: 15px;
+        color: black;
+        background: white;
+        margin-top: 100px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .inner-btnMainDivision {
+        height: fit-content;
+        z-index: -1;
+    }
+
+    .countNumber {
+        border-radius: 10px;
+        display: none;
+        margin-top: 10px;
+        width: 200px;
+        height: fit-content;
+        background: orange;
+        color: black;
+    }
+
+    .inner-btnMainDivision div p {
+        font-size: .7rem;
+        margin: 0;
+        margin-top: 5px; margin-left: 10px; margin-bottom: 20px;
+        text-align: start;
+    }
+
+    .count {
+        width: 70px;
+        float: right;
+        margin-right: 20px;
+        margin-top: -60px;
+        font-size: .7rem;
+        height: 60px;
+    }
+
+    .count div {
+        border: 2px solid transparent;
+    }
+
+    .count span {
+        margin: 5px;
+        cursor: pointer;
+        font-size: .7rem;
+        font-weight: bolder;
+    }
+
+
+
+</style>
+<body id="root">
+    <div>
+        <button id="btnMain">
+            Initiate
+        </button>
+
+        <div class="inner-btnMainDivision">
+            <div id="innerBlock" class="countNumber">
+                <p style="font-weight: bold;">Number of seats.</p>
+                <p style="font-size: .6rem; margin-bottom: 0px;" >Adult <span id="adultC">0</span> </p>
+                <p style="font-size: .6rem; margin-bottom: 0px;" >Teenager <span id="teenC">0</span></p>
+                <p style="font-size: .6rem; margin-bottom: 10px;" >Children <span id="childC">0</span></p>
+                <div class="count">
+                    <div>
+                        <span id="adult+" >+</span>
+                        <span id="adult-" >-</span>
+                    </div>
+                    <div>
+                        <span id="teen+" >+</span>
+                        <span id="teen-" >-</span>
+                    </div>
+                    <div>
+                        <span id="child+" >+</span>
+                        <span id="child-" >-</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("btnMain").addEventListener('click', () => {
+            document.getElementById("innerBlock").style.display = "inline-block";
+        });
+
+        let aCount = 0;
+        let tCount  = 0;
+        let cCount = 0;
+
+        document.getElementById("adult+").addEventListener('click', () => {
+            aCount = aCount + 1;
+            document.getElementById("adultC").innerHTML = aCount;
+        });
+        document.getElementById("adult-").addEventListener('click', () => {
+            if (aCount != 0) {
+                aCount = aCount - 1;
+                document.getElementById("adultC").innerHTML = aCount;
+            }
+        });
+        document.getElementById("teen+").addEventListener('click', () => {
+            tCount = tCount + 1;
+            document.getElementById("teenC").innerHTML = tCount;
+        });
+        document.getElementById("teen-").addEventListener('click', () => {
+            if (tCount != 0) {
+                tCount = tCount - 1;
+                document.getElementById("teenC").innerHTML = tCount;
+            }
+        });
+        document.getElementById("child+").addEventListener('click', () => {
+            cCount = cCount + 1;
+            document.getElementById("childC").innerHTML = cCount;
+        });
+        document.getElementById("child-").addEventListener('click', () => {
+            if (cCount != 0) {
+                cCount = cCount - 1;
+                document.getElementById("childC").innerHTML = cCount;
+            }
+        });
+
+        document.addEventListener('mouseup', (e) =>{
+            if (!(document.getElementById("innerBlock")).contains(e.target)) {
+                document.getElementById('innerBlock').style.display = 'none';
+                document.getElementById("btnMain").innerHTML = `Total Seats: ${aCount + tCount + cCount}`;
+            }
+        });
+    </script>
+</body>
+</html>
